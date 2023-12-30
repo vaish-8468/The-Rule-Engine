@@ -4,6 +4,7 @@ const Routes = require('./src/routes/routes');
 const cors=require('cors');
 const schedule=require('node-schedule');
 // const { runRuleEveryFiveMinutes } = require('../TheRuleEngine/src/routes/runRuleEveryFiveMinutes');
+const {runRuleEveryFiveMinutes} = require('./src/routes/runRuleEveryFiveMinutes')
 const connectDB = require('./src/mockDB/mongoDB'); // Assuming this sets up the database connection
 
 const app = express();
@@ -19,7 +20,7 @@ app.use('/api/v1', Routes);
 
 
 // Run the rule every 5 minutes
-// runRuleEveryFiveMinutes();
+runRuleEveryFiveMinutes();
 
 // Start the server
 const username=encodeURIComponent(process.env.USERNAME);
@@ -48,7 +49,7 @@ process.on('SIGINT', function () {
 
 // Close the database connection on app termination
 // process.on('SIGINT', () => {
-//   db.end((err) => {
+//   connectDB.end((err) => {
 //     if (err) {
 //       console.error('Error closing database connection:', err);
 //     } else {
