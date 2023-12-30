@@ -3,9 +3,8 @@ const express = require('express');
 const Routes = require('./src/routes/routes');
 const cors=require('cors');
 const schedule=require('node-schedule');
-// const { runRuleEveryFiveMinutes } = require('../TheRuleEngine/src/routes/runRuleEveryFiveMinutes');
 const {runRuleEveryFiveMinutes} = require('./src/routes/runRuleEveryFiveMinutes')
-const connectDB = require('./src/db/mongoDB'); // Assuming this sets up the database connection
+const connectDB = require('./src/db/mongoDB'); 
 const bodyParser = require("body-parser")
 
 
@@ -51,14 +50,4 @@ process.on('SIGINT', function () {
   .then(() => process.exit(0))
 });
 
-// Close the database connection on app termination
-// process.on('SIGINT', () => {
-//   connectDB.end((err) => {
-//     if (err) {
-//       console.error('Error closing database connection:', err);
-//     } else {
-//       console.log('Database connection closed');
-//       process.exit(0);
-//     }
-//   });
-// });
+
