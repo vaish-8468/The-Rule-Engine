@@ -41,7 +41,7 @@ const getLastAlert = async () => {
   try {
     const currentTimestamp = new Date();
     const lastFiveMinutesTimestamp = new Date(currentTimestamp.getTime() - 5 * 60 * 1000);
-    console.log('getLastAlert');
+    
     // Find the most recent alert
     const lastAlert = await Alert.findOne({ "createdAt": { "$gte": lastFiveMinutesTimestamp.toISOString() } })
       .sort({ createdAt: -1 })
