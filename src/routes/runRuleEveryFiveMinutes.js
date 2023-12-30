@@ -1,22 +1,25 @@
-// ... (Other required imports)
+const event= require('../mockDB/events');
+const {getLastAlert, postAlert} = require('../mockDB/alerts');
+const cron=require('node-cron');
 
-const eventsList = require('../mockDB/events');
-const { storeAlert } = require('../mockDB/alerts');
+
+
 
 const runRuleEveryFiveMinutes = () => {
   cron.schedule('*/5 * * * *', () => { //cron style scheduling
-    const currentTimestamp = new Date();
+    const currentTimestamp = new Date.now();
 
-    // Filter events received in the past five minutes
-    const recentEvents = eventsList.filter(event =>
-      new Date(event.timestamp) > new Date(currentTimestamp - 5 * 60 * 1000)
-    );
+   
 
     // Check if an alert was generated in the last 5 minutes
     const lastAlert = getLastAlert(); // Function to get the last generated alert
-    const alertGeneratedRecently = lastAlert && new Date(lastAlert.timestamp) > new Date(currentTimestamp - 5 * 60 * 1000);
 
-    if (!alertGeneratedRecently) {
+     // Filter events received in the past five minutes
+    const lastFifthMinute= new Date(curentTimestamp.getTime()-(5*60*1000));
+
+    const recentEvents= event.find({createdAt: { $gte: lastFifthMinute.toISOString(), $lte: curentTimestamp}});
+
+    if (!lastAlert) {
       // Rule conditions to generate an alert based on location_type and 'is_driving_safe'
       const locationThresholds = {
         highway: 4,
@@ -25,7 +28,8 @@ const runRuleEveryFiveMinutes = () => {
         residential: 1,
       };
 
-      const alerts = {};
+      const alerts = {}; 
+      //we are using dictionary because we need to keep a record of is_driving_safe count for each location type in the last five minutes
 
       recentEvents.forEach(event => {
         const { location_type, is_driving_safe } = event;
@@ -35,11 +39,11 @@ const runRuleEveryFiveMinutes = () => {
           if (alerts[location_type] >= locationThresholds[location_type]) {
             const newAlert = {
               timestamp: currentTimestamp,
-              location_type,
-              // Other alert properties...
+              location_type: location_type,
+              violationCount: alerts[location_type],
             };
-            storeAlert(newAlert); // Store the generated alert in the mock database or actual database
-            console.log('Alert generated:', newAlert);
+            postAlert(newAlert); // Store the generated alert in the actual database
+            console.log('Alert! The driver is overspeeding.', newAlert);
           }
         }
       });

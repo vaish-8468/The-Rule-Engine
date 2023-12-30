@@ -2,10 +2,9 @@ const mongoose= require('mongoose');
 
 const event=  new mongoose.Schema({
 
-  timestamp :{
-    type: Date,
-    required: [true,'must be a timstamped date'],
-  },
+  timestamp : true,
+},{
+    
   is_driving_safe:{
     type : Boolean,
     required: [true,'must be a boolean value'],
@@ -18,7 +17,7 @@ const event=  new mongoose.Schema({
     type: String,
     required: [true,'must be a string'],
     trim: true,
-  }
+  }, 
 })
 
 module.exports = mongoose.model('Event',event);
