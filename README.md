@@ -87,3 +87,13 @@ getLastAlert
 Alert already generated...
 
 ```
+
+
+
+
+![Alt text](<snips/Screenshot 2023-12-31 at 2.51.31 AM.png>)
+
+
+![Alt text](<snips/Screenshot 2023-12-31 at 2.43.03 AM.png>)
+
+
