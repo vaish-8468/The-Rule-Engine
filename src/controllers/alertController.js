@@ -1,4 +1,3 @@
-// controllers/alertController.js
 
 const Alert = require('../models/alert'); // Import the Alert model
 
@@ -21,17 +20,17 @@ const getAlertById = async (req, res) => {
 
 const postAlert = async (alert) => {
   try {
-    const { timestamp, vehicle_id, location_type, violationCount} = alert;
+    const { timestamp, vehicleId, location_type, violationCount} = alert;
 
     //push the new alert in the database
     const newAlert= await Alert.create({
-      timestamp: timestamp.toISOString(),
-      vehicleId: vehicle_id,
+      timestamp: timestamp,
+      vehicleId: vehicleId,
       location_type: location_type, 
       violationCount: violationCount
     });
 
-    console.log(`New alert created at ${timestamp} at the location ${location_type} for the vehicle number ${vehicle_id}!`);
+    console.log(`New alert created at ${timestamp} at the location ${location_type} for the vehicle number ${vehicleId}!`);
 
   } catch (error) {
     console.log(error);
