@@ -1,7 +1,8 @@
 # The Rule Engine
 
 ### Introduction
-Generally, customers have a fleet of delivery vehicles. They have had problems where drivers drive rashly or use their phones while driving, leading to accidents. A speed violation in a residential area is more serious than a speed violation on a highway. It’s dangerous to drive over 60kmph in a residential area, but not so much on a highway. There exist models nowadays that detects this behavior. These models are deployed in an IoT device on the vehicle. The IoT device is (naturally) connected to the internet and can make API calls to a cloud server. 
+Generally, customers have a fleet of delivery vehicles. They have had problems where drivers drive rashly or use their phones while driving, leading to accidents. A speed violation in a residential area is more serious than a speed violation on a highway. It’s dangerous to drive over 60kmph in a residential area, but not so much on a highway. There exist models nowadays that detects this behavior. These models are deployed in an IoT device on the vehicle. The IoT device is connected to the internet and can make API calls to a cloud server. 
+
 The customers are interested in knowing if the driver is not driving safely. However, they don’t want to get alerted every time this happens- they are only interested in *repeated* speed violations.
 Therefore, this is a RestAPI aka **The Rule Engine** that aggregates and transforms **driving events** into **alerts** that will be shown to the customer.
 
@@ -29,8 +30,10 @@ For example:
 ### Features
 
 A. This RestAPI acts as a gateway between the driving event and the alert event. IoT device makes API calls to end driving events.
+
 B. Implemented real-time updates to display alerts as they occur.
-c. Alerts are generated when: 
+
+C. Alerts are generated when: 
    1. There are at least **X** events in the past **5 minutes** where `is_driving_safe` is `false`.
       1. The value X depends on the location_type:
           1. `highway`- 4
@@ -38,10 +41,13 @@ c. Alerts are generated when:
           3. `commercial`- 2
           4. `residential`- 1
    2. We haven’t already generated an alert in the past 5 minutes.
+   
    These alerts are automatically stored in the database along with the count of the number of speed violations.
    
 D. The alerts are available through a GET endpoint.
+
 E. Scheduled API calls.
+
 F. Filtering of events on the basis of vehicleIds and sorting in reverse chronological order.
 
 
